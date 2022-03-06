@@ -12,7 +12,7 @@
 		<Logger name="io.net5" level="INFO" additivity="false"/>
 		-->
 
-		<Root level="INFO">
+		<Root level="DEBUG">
 			<filters>
 				<MarkerFilter marker="NETWORK_PACKETS" onMatch="DENY" onMismatch="NEUTRAL"/>
 			</filters>
