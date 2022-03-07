@@ -13,6 +13,7 @@ import it.cavallium.dbengine.client.IndicizerAnalyzers;
 import it.cavallium.dbengine.client.IndicizerSimilarities;
 import it.cavallium.dbengine.database.ColumnUtils;
 import it.cavallium.dbengine.database.LLDatabaseConnection;
+import it.cavallium.dbengine.lucene.LuceneUtils;
 import it.cavallium.dbengine.rpc.current.data.ByteBuffersDirectory;
 import it.cavallium.dbengine.rpc.current.data.DatabaseOptions;
 import it.cavallium.dbengine.rpc.current.data.LuceneIndexStructure;
@@ -91,7 +92,7 @@ public class LLQuicConnectionTest {
 	void getLuceneIndex() {
 		var shardName = "test-lucene-shard";
 		var index = client.getLuceneIndex(shardName,
-				new LuceneIndexStructure(1, IntList.of(0)),
+				LuceneUtils.singleStructure(),
 				IndicizerAnalyzers.of(),
 				IndicizerSimilarities.of(),
 				new LuceneOptions(Map.of(),
