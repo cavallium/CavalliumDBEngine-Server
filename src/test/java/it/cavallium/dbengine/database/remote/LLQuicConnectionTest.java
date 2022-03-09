@@ -7,6 +7,7 @@ import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
 import io.net5.buffer.api.BufferAllocator;
 import io.net5.buffer.api.DefaultBufferAllocators;
 import it.cavallium.data.generator.nativedata.Nullableboolean;
+import it.cavallium.data.generator.nativedata.Nullabledouble;
 import it.cavallium.data.generator.nativedata.Nullableint;
 import it.cavallium.data.generator.nativedata.Nullablelong;
 import it.cavallium.dbengine.client.IndicizerAnalyzers;
@@ -100,9 +101,11 @@ public class LLQuicConnectionTest {
 						Duration.ofSeconds(1),
 						false,
 						new ByteBuffersDirectory(),
-						-1,
-						false,
-						false,
+						Nullableboolean.empty(),
+						Nullabledouble.empty(),
+						Nullableint.empty(),
+						Nullableboolean.empty(),
+						Nullableboolean.empty(),
 						false,
 						100
 				),
