@@ -210,7 +210,7 @@
 						<annotationProcessorPath>
 							<groupId>io.soabase.record-builder</groupId>
 							<artifactId>record-builder-processor</artifactId>
-							<version>1.19</version>
+							<version>32</version>
 						</annotationProcessorPath>
 					</annotationProcessorPaths>
 					<annotationProcessors>
