@@ -1,7 +1,7 @@
 package it.cavallium.dbengine.database.remote;
 
 import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
-import io.net5.buffer.api.BufferAllocator;
+import io.netty5.buffer.api.BufferAllocator;
 import java.net.InetSocketAddress;
 
 public class TestDbClient {

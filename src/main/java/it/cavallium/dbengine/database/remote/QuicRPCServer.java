@@ -1,9 +1,9 @@
 package it.cavallium.dbengine.database.remote;
 
 import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
-import io.net5.buffer.api.Buffer;
-import io.net5.buffer.api.DefaultBufferAllocators;
-import io.net5.buffer.api.Send;
+import io.netty5.buffer.api.Buffer;
+import io.netty5.buffer.api.DefaultBufferAllocators;
+import io.netty5.buffer.api.Send;
 import io.netty.handler.ssl.ClientAuth;
 import io.netty.incubator.codec.quic.InsecureQuicTokenHandler;
 import io.netty.incubator.codec.quic.QuicConnectionIdGenerator;
