@@ -43,6 +43,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -213,11 +214,20 @@ public class QuicRPCServer {
 
 	private Mono<LLSingleton> obtainSingleton(DatabasePartName id, GetSingleton getSingleton) {
 		Mono<LLKeyValueDatabase> dbMono = dbs.getResource(id.dbRef());
-		return dbMono.flatMap(db -> db.getSingleton(
-				QuicUtils.toArrayNoCopy(getSingleton.singletonListColumnName()),
-				QuicUtils.toArrayNoCopy(getSingleton.name()),
-				QuicUtils.toArrayNoCopy(getSingleton.defaultValue())
-		));
+		return dbMono.flatMap(db -> {
+			var defaultValueOpt = getSingleton.defaultValue();
+			byte[] defaultValue;
+			if (defaultValueOpt.isPresent()) {
+				defaultValue = QuicUtils.toArrayNoCopy(defaultValueOpt.get());
+			} else {
+				defaultValue = null;
+			}
+			return db.getSingleton(
+					QuicUtils.toArrayNoCopy(getSingleton.singletonListColumnName()),
+					QuicUtils.toArrayNoCopy(getSingleton.name()),
+					defaultValue
+			);
+		});
 	}
 
 	private Mono<GeneratedEntityId> handleGetDatabase(GetDatabase getDatabase) {
