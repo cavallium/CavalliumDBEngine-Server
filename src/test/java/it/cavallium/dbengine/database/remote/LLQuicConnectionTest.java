@@ -70,6 +70,7 @@ public class LLQuicConnectionTest {
 		var db = client.getDatabase(dbName,
 				List.of(ColumnUtils.special(singletonsColumnName)),
 				new DatabaseOptions(List.of(),
+						List.of(),
 						Map.of(),
 						true,
 						true,
