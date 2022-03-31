@@ -194,17 +194,22 @@ public class QuicRPCServer {
 							return localDb.getAllocator().copyOf(QuicUtils.toArrayNoCopy(newValue.value()));
 						}
 					}, singletonUpdateInit.updateReturnMode())
-							.map(result -> new BinaryOptional(result != null ? NullableBinary.of(Binary.of(toByteList(result))) : NullableBinary.empty()));
+							.map(resultSend -> {
+								if (resultSend != null) {
+									try (var r = resultSend.receive()) {
+										return new BinaryOptional(NullableBinary.of(Binary.of(toByteList(r))));
+									}
+								}
+								return new BinaryOptional(NullableBinary.empty());
+							});
 					return Flux.merge(update, clientBound.asFlux());
 				});
 	}
 
-	private static ByteList toByteList(Send<Buffer> prev) {
-		try (var prevVal = prev.receive()) {
-			byte[] result = new byte[prevVal.readableBytes()];
-			prevVal.readBytes(result, 0, result.length);
-			return ByteList.of(result);
-		}
+	private static ByteList toByteList(Buffer prev) {
+		byte[] result = new byte[prev.readableBytes()];
+		prev.readBytes(result, 0, result.length);
+		return ByteList.of(result);
 	}
 
 	private Mono<GeneratedEntityId> handleGetSingleton(GetSingleton getSingleton) {
