@@ -81,7 +81,8 @@ public class LLQuicConnectionTest {
 						Nullableint.empty(),
 						Nullablelong.empty(),
 						Nullablelong.empty(),
-						Nullableboolean.empty()
+						Nullableboolean.empty(),
+						false
 				)
 		).blockOptional().orElseThrow();
 		assertEquals(dbName, db.getDatabaseName());
