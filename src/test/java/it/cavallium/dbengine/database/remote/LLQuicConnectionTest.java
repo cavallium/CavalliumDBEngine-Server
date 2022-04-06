@@ -19,6 +19,7 @@ import it.cavallium.dbengine.rpc.current.data.ByteBuffersDirectory;
 import it.cavallium.dbengine.rpc.current.data.DatabaseOptions;
 import it.cavallium.dbengine.rpc.current.data.LuceneIndexStructure;
 import it.cavallium.dbengine.rpc.current.data.LuceneOptions;
+import it.cavallium.dbengine.rpc.current.data.nullables.NullableFilter;
 import it.unimi.dsi.fastutil.ints.IntList;
 import java.time.Duration;
 import java.util.List;
@@ -82,7 +83,8 @@ public class LLQuicConnectionTest {
 						Nullablelong.empty(),
 						Nullablelong.empty(),
 						Nullableboolean.empty(),
-						false
+						false,
+						NullableFilter.empty()
 				)
 		).blockOptional().orElseThrow();
 		assertEquals(dbName, db.getDatabaseName());
