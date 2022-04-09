@@ -1,4 +1,4 @@
-package it.cavallium.dbengine.database.remote;
+package it.cavallium.dbengine.database.server;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,18 +9,14 @@ import io.netty5.buffer.api.DefaultBufferAllocators;
 import it.cavallium.data.generator.nativedata.Nullableboolean;
 import it.cavallium.data.generator.nativedata.Nullabledouble;
 import it.cavallium.data.generator.nativedata.Nullableint;
-import it.cavallium.data.generator.nativedata.Nullablelong;
+import it.cavallium.dbengine.client.DefaultDatabaseOptions;
 import it.cavallium.dbengine.client.IndicizerAnalyzers;
 import it.cavallium.dbengine.client.IndicizerSimilarities;
 import it.cavallium.dbengine.database.ColumnUtils;
 import it.cavallium.dbengine.database.LLDatabaseConnection;
 import it.cavallium.dbengine.lucene.LuceneUtils;
 import it.cavallium.dbengine.rpc.current.data.ByteBuffersDirectory;
-import it.cavallium.dbengine.rpc.current.data.DatabaseOptions;
-import it.cavallium.dbengine.rpc.current.data.LuceneIndexStructure;
 import it.cavallium.dbengine.rpc.current.data.LuceneOptions;
-import it.cavallium.dbengine.rpc.current.data.nullables.NullableFilter;
-import it.unimi.dsi.fastutil.ints.IntList;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -70,22 +66,7 @@ public class LLQuicConnectionTest {
 		var singletonsColumnName = "singletons";
 		var db = client.getDatabase(dbName,
 				List.of(ColumnUtils.special(singletonsColumnName)),
-				new DatabaseOptions(List.of(),
-						List.of(),
-						Map.of(),
-						true,
-						true,
-						true,
-						true,
-						true,
-						true,
-						Nullableint.empty(),
-						Nullablelong.empty(),
-						Nullablelong.empty(),
-						Nullableboolean.empty(),
-						false,
-						NullableFilter.empty()
-				)
+				DefaultDatabaseOptions.DEFAULT_DATABASE_OPTIONS
 		).blockOptional().orElseThrow();
 		assertEquals(dbName, db.getDatabaseName());
 		assertEquals(allocator, db.getAllocator());

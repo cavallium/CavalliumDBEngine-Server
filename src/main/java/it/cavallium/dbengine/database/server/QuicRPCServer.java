@@ -1,9 +1,8 @@
-package it.cavallium.dbengine.database.remote;
+package it.cavallium.dbengine.database.server;
 
 import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
 import io.netty5.buffer.api.Buffer;
 import io.netty5.buffer.api.DefaultBufferAllocators;
-import io.netty5.buffer.api.Send;
 import io.netty.handler.ssl.ClientAuth;
 import io.netty.incubator.codec.quic.InsecureQuicTokenHandler;
 import io.netty.incubator.codec.quic.QuicConnectionIdGenerator;
@@ -13,8 +12,11 @@ import it.cavallium.dbengine.database.LLDatabaseConnection;
 import it.cavallium.dbengine.database.LLKeyValueDatabase;
 import it.cavallium.dbengine.database.LLLuceneIndex;
 import it.cavallium.dbengine.database.LLSingleton;
+import it.cavallium.dbengine.database.disk.BinarySerializationFunction;
 import it.cavallium.dbengine.database.disk.LLLocalDatabaseConnection;
+import it.cavallium.dbengine.database.remote.QuicUtils;
 import it.cavallium.dbengine.database.remote.RPCCodecs.RPCEventCodec;
+import it.cavallium.dbengine.database.serialization.SerializationException;
 import it.cavallium.dbengine.lucene.LuceneRocksDBManager;
 import it.cavallium.dbengine.rpc.current.data.Binary;
 import it.cavallium.dbengine.rpc.current.data.BinaryOptional;
@@ -184,7 +186,9 @@ public class QuicRPCServer {
 					Many<RPCEvent> clientBound = Sinks.many().unicast().onBackpressureBuffer();
 					Mono<RPCEvent> update = singleton.update(prev -> {
 						clientBound
-								.tryEmitNext(new SingletonUpdateOldData(prev != null, prev != null ? toByteList(prev) : ByteList.of()))
+								.tryEmitNext(new SingletonUpdateOldData(prev != null,
+										prev != null ? toByteList(prev) : ByteList.of()
+								))
 								.orThrow();
 						SingletonUpdateEnd newValue = (SingletonUpdateEnd) otherRequests.singleOrEmpty().block();
 						Objects.requireNonNull(newValue);

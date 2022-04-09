@@ -1,4 +1,4 @@
-package it.cavallium.dbengine.database.remote;
+package it.cavallium.dbengine.database.server;
 
 import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;

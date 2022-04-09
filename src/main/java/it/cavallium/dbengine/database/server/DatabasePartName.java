@@ -1,4 +1,4 @@
-package it.cavallium.dbengine.database.remote;
+package it.cavallium.dbengine.database.server;
 
 import it.unimi.dsi.fastutil.bytes.ByteList;
 
