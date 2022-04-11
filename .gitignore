@@ -1,2 +1,4 @@
 
 target/
+
+.ci-friendly-pom.xml
