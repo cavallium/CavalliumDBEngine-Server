@@ -147,22 +147,6 @@
 			<version>2.2</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>2.17.1</version>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.logging.log4j</groupId>
-					<artifactId>log4j-api</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
   </dependencies>
 	<build>
 		<testSourceDirectory>src/test/java</testSourceDirectory>
@@ -234,6 +218,19 @@
 						</configuration>
 						<goals>
 							<goal>enforce</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.outbrain.swinfra</groupId>
+				<artifactId>ci-friendly-flatten-maven-plugin</artifactId>
+				<version>1.0.14</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>clean</goal>
+							<goal>flatten</goal>
 						</goals>
 					</execution>
 				</executions>
