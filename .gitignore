@@ -2,3 +2,7 @@
 target/
 
 .ci-friendly-pom.xml
+
+/.project
+/.classpath
+/.settings/
