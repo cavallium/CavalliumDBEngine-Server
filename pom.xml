@@ -72,7 +72,7 @@
 			<dependency>
 				<groupId>io.projectreactor</groupId>
 				<artifactId>reactor-bom</artifactId>
-				<version>2020.0.17</version>
+				<version>2020.0.18</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -87,7 +87,7 @@
 		<dependency>
 			<groupId>io.projectreactor.netty</groupId>
 			<artifactId>reactor-netty-core</artifactId>
-		</dependency>
+    </dependency>
 		<dependency>
 			<groupId>it.cavallium</groupId>
 			<artifactId>dbengine</artifactId>
