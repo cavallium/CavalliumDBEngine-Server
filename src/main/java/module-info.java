@@ -12,5 +12,6 @@ module dbengine.server {
 	requires org.jetbrains.annotations;
 	requires io.netty.incubator.codec.classes.quic;
 	requires io.netty.handler;
+	requires data.generator.runtime;
 
 }
