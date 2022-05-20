@@ -198,10 +198,13 @@ public class QuicRPCServer {
 							return localDb.getAllocator().copyOf(QuicUtils.toArrayNoCopy(newValue.value()));
 						}
 					}, singletonUpdateInit.updateReturnMode())
-							.map(resultSend -> {
-								if (resultSend != null) {
-									try (var r = resultSend.receive()) {
-										return new BinaryOptional(NullableBinary.of(Binary.of(toByteList(r))));
+							.map(result -> {
+								if (result != null) {
+									try {
+										return new BinaryOptional(NullableBinary.of(Binary.of(toByteList(result))));
+									} catch (Throwable ex) {
+										result.close();
+										throw ex;
 									}
 								}
 								return new BinaryOptional(NullableBinary.empty());
