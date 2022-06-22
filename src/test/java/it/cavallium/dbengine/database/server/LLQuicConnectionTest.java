@@ -92,7 +92,8 @@ public class LLQuicConnectionTest {
 						Nullableboolean.empty(),
 						Nullableboolean.empty(),
 						false,
-						100
+						100,
+						LuceneUtils.getDefaultMergePolicy()
 				),
 				null).blockOptional().orElseThrow();
 		assertEquals(shardName, index.getLuceneIndexName());
