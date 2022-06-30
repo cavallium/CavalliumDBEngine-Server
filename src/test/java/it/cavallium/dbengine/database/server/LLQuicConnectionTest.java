@@ -97,6 +97,6 @@ public class LLQuicConnectionTest {
 				),
 				null).blockOptional().orElseThrow();
 		assertEquals(shardName, index.getLuceneIndexName());
-		assertDoesNotThrow(() -> index.close().block());
+		assertDoesNotThrow(index::close);
 	}
 }

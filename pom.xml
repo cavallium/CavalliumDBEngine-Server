@@ -72,7 +72,7 @@
 			<dependency>
 				<groupId>io.projectreactor</groupId>
 				<artifactId>reactor-bom</artifactId>
-				<version>2020.0.19</version>
+				<version>2020.0.20</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -96,6 +96,10 @@
 				<exclusion>
 					<groupId>io.projectreactor.netty</groupId>
 					<artifactId>reactor-netty-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.mockito</groupId>
+					<artifactId>mockito-core</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -142,12 +146,24 @@
 			<artifactId>junit-jupiter-params</artifactId>
 			<version>5.8.2</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.mockito</groupId>
+					<artifactId>mockito-core</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
-			<version>3.22.0</version>
+			<version>3.23.1</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.mockito</groupId>
+					<artifactId>mockito-core</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- This will get hamcrest-core automatically -->
 		<dependency>
@@ -210,7 +226,7 @@
 					</dependency>
 				</dependencies>
 				<configuration>
-					<argLine>--add-modules jdk.incubator.foreign -Dforeign.restricted=permit
+					<argLine>-Dforeign.restricted=permit
 						--add-opens=java.base/jdk.internal.misc=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED
 						--add-opens=java.base/java.nio=ALL-UNNAMED --enable-native-access=ALL-UNNAMED
 					</argLine>

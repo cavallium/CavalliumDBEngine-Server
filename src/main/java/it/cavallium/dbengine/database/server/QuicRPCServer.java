@@ -53,6 +53,7 @@ import reactor.core.publisher.Signal;
 import reactor.core.publisher.SignalType;
 import reactor.core.publisher.Sinks;
 import reactor.core.publisher.Sinks.Many;
+import reactor.core.scheduler.Schedulers;
 import reactor.netty.Connection;
 import reactor.netty.DisposableChannel;
 import reactor.netty.incubator.quic.QuicServer;
@@ -67,7 +68,9 @@ public class QuicRPCServer {
 
 	private final ReferencedResources<String, GetDatabase, LLKeyValueDatabase> dbs = new ReferencedResources<>(this::obtainDatabase, LLKeyValueDatabase::close);
 	private final ReferencedResources<DatabasePartName, GetSingleton, LLSingleton> singletons = new ReferencedResources<>(this::obtainSingleton, s -> Mono.empty());
-	private final ReferencedResources<String, GetLuceneIndex, LLLuceneIndex> indices = new ReferencedResources<>(this::obtainLuceneIndex, LLLuceneIndex::close);
+	private final ReferencedResources<String, GetLuceneIndex, LLLuceneIndex> indices = new ReferencedResources<>(this::obtainLuceneIndex,
+			s -> Mono.<Void>fromRunnable(s::close).subscribeOn(Schedulers.boundedElastic())
+	);
 
 	public QuicRPCServer(LuceneRocksDBManager rocksDBManager, LLDatabaseConnection localDb, QuicServer quicServer) {
 		this.rocksDBManager = rocksDBManager;
@@ -275,7 +278,8 @@ public class QuicRPCServer {
 	private Mono<RPCEvent> handleCloseLuceneIndex(CloseLuceneIndex closeLuceneIndex) {
 		return this.indices
 				.getResource(closeLuceneIndex.luceneIndexId())
-				.flatMap(LLLuceneIndex::close)
+				.publishOn(Schedulers.boundedElastic())
+				.doOnNext(LLLuceneIndex::close)
 				.thenReturn(Empty.of());
 	}
 
