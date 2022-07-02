@@ -14,6 +14,7 @@ import it.cavallium.dbengine.client.IndicizerAnalyzers;
 import it.cavallium.dbengine.client.IndicizerSimilarities;
 import it.cavallium.dbengine.database.ColumnUtils;
 import it.cavallium.dbengine.database.LLDatabaseConnection;
+import it.cavallium.dbengine.database.LLUtils;
 import it.cavallium.dbengine.lucene.LuceneUtils;
 import it.cavallium.dbengine.rpc.current.data.ByteBuffersDirectory;
 import it.cavallium.dbengine.rpc.current.data.LuceneOptions;
@@ -36,7 +37,7 @@ public class LLQuicConnectionTest {
 		this.allocator = DefaultBufferAllocators.preferredAllocator();
 		this.meterRegistry = new CompositeMeterRegistry();
 		this.server = TestDbServer.create(allocator, meterRegistry);
-		server.bind().block();
+		server.bind().transform(LLUtils::handleDiscard).block();
 		this.client = TestDbClient.create(allocator, meterRegistry, server.address()).connect().block();
 	}
 

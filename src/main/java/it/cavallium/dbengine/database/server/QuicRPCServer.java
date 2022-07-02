@@ -12,6 +12,7 @@ import it.cavallium.dbengine.database.LLDatabaseConnection;
 import it.cavallium.dbengine.database.LLKeyValueDatabase;
 import it.cavallium.dbengine.database.LLLuceneIndex;
 import it.cavallium.dbengine.database.LLSingleton;
+import it.cavallium.dbengine.database.LLUtils;
 import it.cavallium.dbengine.database.disk.BinarySerializationFunction;
 import it.cavallium.dbengine.database.disk.LLLocalDatabaseConnection;
 import it.cavallium.dbengine.database.remote.QuicUtils;
@@ -174,9 +175,9 @@ public class QuicRPCServer {
 						.maxStreamsUnidirectional(100)
 				);
 		QuicRPCServer server = new QuicRPCServer(rocksDBManager, localDb, qs);
-		server.bind().block();
-		server.onDispose().block();
-		localDb.disconnect().block();
+		server.bind().transform(LLUtils::handleDiscard).block();
+		server.onDispose().transform(LLUtils::handleDiscard).block();
+		localDb.disconnect().transform(LLUtils::handleDiscard).block();
 		rocksDBManager.closeAll();
 	}
 
@@ -193,7 +194,10 @@ public class QuicRPCServer {
 										prev != null ? toByteList(prev) : ByteList.of()
 								))
 								.orThrow();
-						SingletonUpdateEnd newValue = (SingletonUpdateEnd) otherRequests.singleOrEmpty().block();
+								SingletonUpdateEnd newValue = (SingletonUpdateEnd) otherRequests
+										.singleOrEmpty()
+										.transform(LLUtils::handleDiscard)
+										.block();
 						Objects.requireNonNull(newValue);
 						if (!newValue.exist()) {
 							return null;
