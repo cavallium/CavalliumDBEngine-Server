@@ -1,7 +1,7 @@
 package it.cavallium.dbengine.database.server;
 
 import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
-import io.netty5.buffer.api.BufferAllocator;
+import io.netty5.buffer.BufferAllocator;
 import io.netty.handler.ssl.ClientAuth;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
 import io.netty.incubator.codec.quic.InsecureQuicTokenHandler;

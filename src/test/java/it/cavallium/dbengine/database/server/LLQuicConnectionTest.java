@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
-import io.netty5.buffer.api.BufferAllocator;
-import io.netty5.buffer.api.DefaultBufferAllocators;
+import io.netty5.buffer.BufferAllocator;
+import io.netty5.buffer.DefaultBufferAllocators;
 import it.cavallium.data.generator.nativedata.Nullableboolean;
 import it.cavallium.data.generator.nativedata.Nullabledouble;
 import it.cavallium.data.generator.nativedata.Nullableint;
